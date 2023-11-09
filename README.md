@@ -53,3 +53,14 @@ DISS JEAN;;67270 MINVERSHEIM;
 MINVERSHEIM;24;247;0.46
 ;;;
 ```
+
+## Installer le programme
+
+**Prérequis**:
+Installer [Python](https://www.python.org/downloads/)
+
+Pour installer le programme, il suffit de lancer le fichier **install.bat** qui se trouve à la racine du projet.
+
+## Compiler le programme
+
+Pour compiler le programme, il suffit de lancer le fichier **buil.bat** qui se trouve à la racine du projet.

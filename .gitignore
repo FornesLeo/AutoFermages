@@ -1,4 +1,4 @@
 .vs
 __pycache__/
 build/
-fermage.spec
+*.spec

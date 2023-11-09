@@ -62,8 +62,12 @@ def get_personnal_last_year(path, name, year):
     for line in content:
         if name in line:
             line = line.split(';')
-            return line[column]
-    return 0
+            if line[column] != '':
+                return line[column]
+            else:
+                return "0.00"
+    print("Error: name not found")
+    return "0.00"
 
 
 def modify_last_year(path, data, year, pourcent):
@@ -87,8 +91,7 @@ def modify_last_year(path, data, year, pourcent):
         column_last_last_year += 1
     new_content = [['NOM', year + ' ' + pourcent + '%', first_line[column_last_year],
                     first_line[column_last_last_year], 'Surface ha']]
-    for line in content:
-        find = False
+    for line in content: # refacto pas opti mais fonctionnel
         for people in data:
             if people['NOM'] in line:
                 total = 0
@@ -97,33 +100,23 @@ def modify_last_year(path, data, year, pourcent):
                         continue
                     total += float(ha[3].replace(',', '.'))
                 line = line.split(';')
-                new_content.append([people['NOM'], people['new'], line[column_last_year], line[column_last_last_year],
-                                    f"{total:.2f}"])
+                new_content.append([people['NOM'], people['new'], line[column_last_year], line[column_last_last_year], f"{total:.2f}"])
+                break
+    
+    file = open(path, "w")
+    for people in data:
+        find = False
+        for line in new_content:
+            if people['NOM'] in line:
                 find = True
                 break
         if not find:
-            if len(line) > 0 and line != content[0]:
-                line = line.split(';')
-                new_content.append([line[0], '', line[column_last_year], line[column_last_last_year],
-                                    line[4]])
-    #for people in data:
-     #   find = False
-      #  for line in content:
-       #     if people['NOM'] in line:
-        #        total = 0
-         #       for ha in people['CHAMPS']:
-          #          if 'SURFACE' in ha[3]:
-           #             continue
-           #         total += float(ha[3].replace(',', '.'))
-           #     line = line.split(';')
-           #     new_content.append([people['NOM'], people['new'], line[column_last_year], line[column_last_last_year],
-            #                        f"{total:.2f}"])
-             #   find = True
-              #  break
-        #if not find:
-         #   new_content.append
-
-    file = open(path, "w")
+            total = 0
+            for ha in people['CHAMPS']:
+                if 'SURFACE' in ha[3]:
+                    continue
+                total += float(ha[3].replace(',', '.'))
+            new_content.append([people['NOM'], people['new'], '0.00', '0.00', f"{total:.2f}"])
     for line in new_content:
         file.write(line[0] + ';' + line[1] + ';' + line[2] + ';' + line[3] + ';' + line[4] + '\n')
     file.close()
