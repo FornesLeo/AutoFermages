@@ -9,18 +9,25 @@ class App(Frame):
         self.pourcent = StringVar()
         self.indice = StringVar()
 
-        Label(master, text="Indice nationnal", font=('Arial', 10)).grid(row=0)
-        Label(master, text="Pourcentage", font=('Arial', 10)).grid(row=1)
+        self.master.title("Fermages")
+        self.master.geometry("400x150")
 
-        self.e1 = Entry(master)
-        self.e2 = Entry(master)
+        label_indice = Label(master, text="Indice national", font=('Arial', 14))
+        label_pourcent = Label(master, text="Pourcentage", font=('Arial', 14))
 
-        self.e1.grid(row=0, column=1)
-        self.e2.grid(row=1, column=1)
-        self.e1["textvariable"] = self.indice
-        self.e2["textvariable"] = self.pourcent
+        entry_indice = Entry(master, textvariable=self.indice, font=('Arial', 14))
+        entry_pourcent = Entry(master, textvariable=self.pourcent, font=('Arial', 14))
 
-        Button(master, text='envoyer', command=self.quit).grid(row=3, column=1, sticky=W, pady=4)
+        button_submit = Button(master, text='Envoyer', command=self.quit, font=('Arial', 14))
+
+        label_indice.grid(row=0, column=0, sticky=E, padx=10, pady=10)
+        entry_indice.grid(row=0, column=1, padx=10, pady=10)
+
+        label_pourcent.grid(row=1, column=0, sticky=E, padx=10, pady=10)
+        entry_pourcent.grid(row=1, column=1, padx=10, pady=10)
+
+        button_submit.grid(row=2, column=1, sticky=W, pady=10)
+
 
     def quit(self):
         self.master.quit()

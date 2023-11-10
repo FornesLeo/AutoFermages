@@ -24,14 +24,20 @@ class Pdf:
         self.pdf.cell(170, 0, txt="LE " + today, align="R")
 
     def add_rcv_info(self, name, addr, codep):
+        max_height = 60  # Set the maximum height for the address
+    
         self.pdf.set_xy(110, 40)
         self.pdf.cell(50, 5, txt=name, ln=1, align="L")
-        self.pdf.set_xy(110, 45)
-        self.pdf.multi_cell(0, 5, txt=addr, align="L")
-        self.pdf.set_xy(110, 50)
-        self.pdf.multi_cell(0, 5, txt=codep, align="L")
 
-
+        addr += " " + codep
+        self.pdf.set_xy(110, self.pdf.get_y())
+        addr_lines = self.pdf.multi_cell(0, 5, txt=addr, align="L")
+        if sum(addr_lines) > max_height:
+            # Truncate or handle overflow
+            addr = addr[:50] + "..."  # Adjust the length as needed
+            self.pdf.set_xy(110, self.pdf.get_y())
+            self.pdf.multi_cell(0, 5, txt=addr, align="L")
+        
     def add_main_text(self, indice, pourcentage):
         year = date.today().strftime("%Y")
         last_year = str(int(year) - 1)
